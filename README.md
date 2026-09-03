@@ -23,7 +23,6 @@ Consome a [B3 Analytics API](https://github.com/Filipelevar/B3AnalyticsBackend).
 ```bash
 yarn install
 yarn dev      # ambiente de desenvolvimento (http://localhost:5173)
-yarn build    # build de produção
 ```
 
 A URL base da API é lida de `VITE_API_BASE_URL` (ver `src/services/api.ts`), com fallback para `http://localhost:3333`.
