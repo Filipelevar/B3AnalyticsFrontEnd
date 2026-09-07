@@ -85,7 +85,7 @@ export function Market() {
                 setMeta({})
             }
 
-            const { data: response } = await getAssetHistory(params)
+            const { data: response } = await getAssetHistory(params, { skipLoader: options.background })
 
             if (requestId !== requestIdRef.current) return
 
@@ -172,6 +172,7 @@ export function Market() {
                                 isMulti
                                 isRequired
                                 placeholder="Selecione os ativos"
+                                isSearchable={true}
                             />
                             <SearchButton type="submit" disabled={isSearching}>
                                 Buscar

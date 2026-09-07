@@ -18,7 +18,6 @@ export function Toast() {
                     color: '#fff',
                 },
 
-                // Default options for specific types
                 success: {
                     duration: 3000,
                     iconTheme: {
