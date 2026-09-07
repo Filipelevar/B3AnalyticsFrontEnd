@@ -11,8 +11,9 @@ Consome a [B3 Analytics API](https://github.com/Filipelevar/B3AnalyticsBackend).
 - React Router DOM (roteamento)
 - Styled Components (estilização)
 - React Hook Form (formulários)
-- Zustand com persistência (estado de autenticação)
+- Zustand (estado de autenticação com persistência, e loading global)
 - Axios (requisições HTTP)
+- React Select (seleção múltipla de ativos na consulta)
 - Recharts (gráfico de histórico de ativos)
 - date-fns (formatação de datas)
 - react-hot-toast (notificações)
@@ -55,7 +56,7 @@ src/
 │   └── inputs/
 ├── globals/               # design tokens e estilos base (theme, grid, buttons, forms, styles)
 ├── hooks/                 # hooks de domínio (ex.: useAuth)
-├── stores/                # estado global com Zustand (auth-store)
+├── stores/                # estado global com Zustand (auth-store, loading-store)
 ├── services/              # camada de API (api.ts + um *.service.ts por domínio)
 └── types/                 # DTOs e tipos compartilhados (um *Types.ts por domínio)
 ```
@@ -67,6 +68,7 @@ src/
 - **Componentes com pasta própria**: cada componente/página tem `index.tsx` (lógica/JSX) e `styles.ts` (Styled Components) separados.
 - **Estado mínimo**: apenas o necessário vive em store global (usuário autenticado). Estado local de formulário e UI fica em `useState`/React Hook Form.
 - **Guard implícito por rota**: `routes/index.tsx` verifica o usuário do store diretamente em cada rota — sem sessão, `/market` e `/profile` redirecionam para `/login`; com sessão, `/login` e `/register` redirecionam para `/market`. Sem um componente de guarda genérico, já que a plataforma é pequena o suficiente para não precisar dessa camada extra.
+- **Loading global via interceptor**: os interceptors do Axios (`services/api.ts`) incrementam/decrementam um contador no `loading-store` (Zustand) a cada requisição; o `<Loader />` é montado uma única vez no `App.tsx` e reage a esse contador, sem precisar de estado de loading em cada página. Requisições em segundo plano (ex.: polling do Market) passam `skipLoader` para não acionar o overlay.
 
 
 ## Uso de Inteligência Artificial
