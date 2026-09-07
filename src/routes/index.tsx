@@ -8,14 +8,16 @@ import { useAuthStore } from '@/stores/auth-store'
 
 export function AppRoutes() {
     const user = useAuthStore((state) => state.user)
+    const isAuthenticated = Boolean(user)
 
     return (
         <Routes>
-            <Route index element={<Market />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={user ? <Profile /> : <Navigate to="/" replace />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route index element={<Navigate to={isAuthenticated ? '/market' : '/login'} replace />} />
+            <Route path="/login" element={isAuthenticated ? <Navigate to="/market" replace /> : <Login />} />
+            <Route path="/register" element={isAuthenticated ? <Navigate to="/market" replace /> : <Register />} />
+            <Route path="/market" element={isAuthenticated ? <Market /> : <Navigate to="/login" replace />} />
+            <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/login" replace />} />
+            <Route path="*" element={<Navigate to={isAuthenticated ? '/market' : '/login'} replace />} />
         </Routes>
     )
 }

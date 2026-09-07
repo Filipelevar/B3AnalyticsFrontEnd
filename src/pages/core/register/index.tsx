@@ -37,7 +37,7 @@ export function Register() {
             <Row>
                 <Column desktop={6}>
                     <LogoContainer>
-                        <img />
+                        <img src={theme.img.b3Logo} alt="Logo" />
                     </LogoContainer>
 
                     <form onSubmit={handleSubmit(createAccount)}>

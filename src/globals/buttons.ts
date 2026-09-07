@@ -1,6 +1,7 @@
 import type { ButtonHTMLAttributes } from "react";
 import { theme } from "./theme";
 import styled, { css } from "styled-components";
+import { Link } from "react-router-dom";
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   success?: boolean;
@@ -61,3 +62,35 @@ export const OutlineButton = styled(BaseButton)`
     background-color: ${theme.colors.battleship};
   }
 `;
+
+export const NavbarItem = styled(Link)<{ $isActive?: boolean; $disabled?: boolean }>`
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: background-color .2s ease-in-out;
+  border-radius: 10px;
+  cursor: pointer;
+
+  &:hover:not(:active) {
+    background-color: ${theme.colors.white30};
+  }
+
+  &:active {
+    background-color: ${theme.colors.columbiaBlue} !important;
+  }
+
+   &:disabled {
+    background-color: ${theme.colors.davysGrey} !important;
+  }
+
+  background-color: ${(props) => props.$isActive ? theme.colors.columbiaBlue : "transparent"};
+
+  ${({ $disabled }) => $disabled && css`
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  `}
+`

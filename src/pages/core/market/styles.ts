@@ -13,23 +13,11 @@ export const Form = styled.form`
 
 export const FieldGroup = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: flex-end;
   gap: 8px;
   min-width: 160px;
 
-  label {
-    font-size: 14px;
-    color: ${theme.colors.dark};
-  }
-
-  input {
-    box-sizing: border-box;
-    height: 44px;
-    padding: 0 16px;
-    border: 1px solid ${theme.colors.silver};
-    border-radius: 6px;
-    font-size: 14px;
-  }
 `
 
 export const SearchButton = styled(PrimaryButton)`

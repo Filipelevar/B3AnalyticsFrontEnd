@@ -23,6 +23,8 @@ import type { AssetHistoryRange, AssetHistoryRequestDTO, AssetHistoryRowDTO, Ass
 
 import { ActionButtons, AssetTitle, ChartWrapper, CustomPeriodForm, FieldGroup, Form, RangeButton, RangeButtons, SearchButton, SessionDate, StatusText } from '@/pages/core/market/styles'
 import { buildNiceYAxis, formatSessionDate, formatXAxisTick, formatYAxisTick, isIntradayRow, parseRowDateTime } from '@/pages/core/market/utils'
+import { Title } from '@/globals/text'
+import { InputLabel } from '@/components/inputs/input-label'
 
 const POLL_INTERVAL_MS = 5 * 60_000
 
@@ -62,7 +64,9 @@ export function Market() {
     }, [symbols, period])
 
     const activeRequestRef = useRef(activeRequest)
-    activeRequestRef.current = activeRequest
+    useEffect(() => {
+        activeRequestRef.current = activeRequest
+    }, [activeRequest])
 
     const requestIdRef = useRef(0)
 
@@ -108,7 +112,7 @@ export function Market() {
 
     useEffect(() => {
         if (!activeRequest) return
-
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         fetchHistory(activeRequest)
 
         const isLiveRange = period.type === 'range' && period.id === '1D'
@@ -155,23 +159,21 @@ export function Market() {
         <Container>
             <Row>
                 <Column>
-                    <h1>Consulta de ativos B3</h1>
-                    <p>Digite um ou mais ativos para visualizar o histórico de preços.</p>
+                    <Title>Consulta de ativos B3</Title>
 
                     <Form onSubmit={handleSubmit(search)}>
                         <FieldGroup>
-                            <label htmlFor="symbols">Ativos</label>
-                            <Input
+                            <InputLabel
                                 name="symbols"
+                                label="Ativos"
                                 placeholder="PETR4,VALE3"
                                 isRequired
                                 register={register}
                             />
+                            <SearchButton type="submit" disabled={isSearching}>
+                                Buscar
+                            </SearchButton>
                         </FieldGroup>
-
-                        <SearchButton type="submit" disabled={isSearching}>
-                            Buscar
-                        </SearchButton>
                     </Form>
 
                     {lastUpdatedAt && (

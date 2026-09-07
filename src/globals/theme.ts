@@ -1,4 +1,8 @@
     import tradeLogin from '../assets/tradeimg.jpg'
+    import b3Logo from '../assets/b3Logo.svg'
+    import File from '../assets/file.svg'
+    import Coins from '../assets/coins.svg'
+    import Bank from '../assets/bank.svg'
 
 
     export const theme = {  
@@ -24,8 +28,17 @@
             battleship: "#8F8F8F",
             davysGrey: "#505050",
         },
+
+        icons: {
+            File,
+            Coins,
+            Bank,
+
+        },
+
         img: {
             tradeLogin,
+            b3Logo,
         },
 
         screenSizes: {

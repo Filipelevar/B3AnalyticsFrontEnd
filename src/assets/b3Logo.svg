@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 420" role="img" aria-labelledby="title desc">
+  <title id="title">B3 Analytics</title>
+  <desc id="desc">Logo with a stylized B3 mark, rising bars and an upward arrow.</desc>
+
+  <defs>
+    <linearGradient id="blue" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1769ff"/>
+      <stop offset="100%" stop-color="#20bfff"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#18d9a0"/>
+      <stop offset="100%" stop-color="#39ff8a"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(55 35)">
+    <path d="M45 25h170c55 0 91 31 91 73 0 28-15 50-40 62 34 11 55 36 55 70 0 51-43 84-105 84H45V25zm70 55v86h91c25 0 39-14 39-35 0-33-28-51-65-51h-65zm0 141v37h96c31 0 50-14 50-40 0-25-20-40-54-40h-92z"
+          fill="none" stroke="url(#blue)" stroke-width="24" stroke-linejoin="round"/>
+
+    <rect x="82" y="245" width="34" height="74" rx="4" fill="url(#blue)"/>
+    <rect x="130" y="215" width="34" height="104" rx="4" fill="url(#blue)"/>
+    <rect x="178" y="178" width="34" height="141" rx="4" fill="url(#blue)"/>
+    <rect x="226" y="132" width="34" height="187" rx="4" fill="url(#green)"/>
+
+    <path d="M55 282L139 204l48 37 91-100" fill="none" stroke="url(#green)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M249 141l58-18-18 58z" fill="#39ff8a"/>
+  </g>
+
+  <text x="395" y="205" font-family="Inter, Arial, Helvetica, sans-serif" font-size="68" font-weight="800" letter-spacing="1">
+    <tspan fill="#111827">B3</tspan>
+    <tspan fill="#1769ff"> ANALYTICS</tspan>
+  </text>
+
+  <line x1="398" y1="232" x2="1030" y2="232" stroke="url(#green)" stroke-width="5" stroke-linecap="round"/>
+
+  <text x="398" y="270" font-family="Inter, Arial, Helvetica, sans-serif" font-size="19" font-weight="500" letter-spacing="7" fill="#64748b">
+    DADOS • INSIGHTS • DECISÕES
+  </text>
+</svg>

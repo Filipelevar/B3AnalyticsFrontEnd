@@ -7,7 +7,7 @@ export const NavbarWrapper = styled.header`
   width: 100%;
   background-color: ${theme.colors.white};
   border-bottom: 1px solid ${theme.colors.silver};
-  padding: 24px 0;
+  padding: 32px 0;
 `
 
 export const NavbarContainer = styled(Container)`
@@ -18,22 +18,74 @@ export const NavbarContainer = styled(Container)`
 
   nav {
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 16px;
   }
 
   @media ${theme.screenSizes.smallScreen} {
-    flex-direction: column;
-    gap: 16px;
+        flex-direction: column;
 
-    & > a {
-      align-self: flex-start;
+        & > a {
+            align-self: flex-start;
+        }
     }
-  }
 `
 
-export const Brand = styled.a`
-  font-size: 18px;
-  font-weight: 700;
-  color: ${theme.colors.dark};
+
+export const Logo = styled.img`
+    width: 120px;
+    height: 48px;
+`
+
+export const InfoContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+`
+export const UserContainer = styled.div`
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+    margin-left: 8px;
+`
+
+export const UserInfo = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-direction: column;
+
+    div {
+        display: flex;
+        gap: 4px;
+    }
+
+    p, span {
+        font-size: 12px;
+    }
+
+    span {
+        color: ${theme.colors.battleship};
+        align-self: flex-end;
+    }
+`
+
+export const UserImageContainer = styled.div`
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 8px;
+    padding: 4px 4px 4px 8px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    
+    &:hover {
+        background-color: ${theme.colors.white30};
+    }
 `

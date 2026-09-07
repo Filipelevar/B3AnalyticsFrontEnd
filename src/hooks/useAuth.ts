@@ -10,12 +10,12 @@ export function useAuth() {
 
     async function handleSignIn(credentials: LoginUserDTO) {
         await signIn(credentials)
-        navigate('/', { replace: true })
+        navigate('/market', { replace: true })
     }
 
     function handleLogout() {
         logout()
-        navigate('/', { replace: true })
+        navigate('/login', { replace: true })
     }
 
     return {

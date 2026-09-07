@@ -5,12 +5,15 @@ import { Navbar } from '@/components/navbar'
 import { GlobalContainer, PagesContainer } from '@/globals/styles'
 import { AppRoutes } from '@/routes'
 
+const AUTH_ROUTES = ['/login', '/register']
+
 function App() {
   const location = useLocation()
+  const hideNavbar = AUTH_ROUTES.includes(location.pathname)
 
   return (
     <GlobalContainer>
-      <Navbar />
+      {!hideNavbar && <Navbar />}
       <PagesContainer data-route={location.pathname}>
         <Suspense fallback={null}>
           <AppRoutes />
