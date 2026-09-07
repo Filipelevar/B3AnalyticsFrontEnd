@@ -67,3 +67,8 @@ src/
 - **Componentes com pasta própria**: cada componente/página tem `index.tsx` (lógica/JSX) e `styles.ts` (Styled Components) separados.
 - **Estado mínimo**: apenas o necessário vive em store global (usuário autenticado). Estado local de formulário e UI fica em `useState`/React Hook Form.
 - **Guard implícito por rota**: `routes/index.tsx` verifica o usuário do store diretamente em cada rota — sem sessão, `/market` e `/profile` redirecionam para `/login`; com sessão, `/login` e `/register` redirecionam para `/market`. Sem um componente de guarda genérico, já que a plataforma é pequena o suficiente para não precisar dessa camada extra.
+
+
+## Uso de Inteligência Artificial
+
+O frontend foi desenvolvido integralmente por mim, sem uso de IA para código ou lógica. Utilizei apoio de IA (Claude) apenas para debug de configuração de deploy na Vercel (variável de ambiente da URL da API e CORS).
