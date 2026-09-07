@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import type { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
 import {
     CartesianGrid,
@@ -24,9 +23,15 @@ import type { AssetHistoryRange, AssetHistoryRequestDTO, AssetHistoryRowDTO, Ass
 import { ActionButtons, AssetTitle, ChartWrapper, CustomPeriodForm, FieldGroup, Form, RangeButton, RangeButtons, SearchButton, SessionDate, StatusText } from '@/pages/core/market/styles'
 import { buildNiceYAxis, formatSessionDate, formatXAxisTick, formatYAxisTick, isIntradayRow, parseRowDateTime } from '@/pages/core/market/utils'
 import { Title } from '@/globals/text'
-import { InputLabel } from '@/components/inputs/input-label'
+import { ReactSelect } from '@/components/inputs/react-select'
+import type { SelectOption } from '@/components/inputs/react-select'
 
 const POLL_INTERVAL_MS = 5 * 60_000
+
+const ASSET_OPTIONS: SelectOption[] = [
+    { label: 'PETR4', value: 'PETR4' },
+    { label: 'VALE3', value: 'VALE3' },
+]
 
 const RANGE_OPTIONS: { id: AssetHistoryRange; label: string }[] = [
     { id: '1D', label: '1D' },
@@ -46,7 +51,7 @@ const LINE_COLORS = [
 ]
 
 export function Market() {
-    const { register, handleSubmit } = useForm<{ symbols: string }>()
+    const { control, handleSubmit } = useForm<{ assets: SelectOption[] }>()
     const { register: registerCustomPeriod, handleSubmit: handleCustomPeriodSubmit } = useForm<{ startDate: string; endDate: string }>()
     const { isAuthenticated } = useAuth()
 
@@ -87,19 +92,16 @@ export function Market() {
             setData(response.data)
             setMeta(response.meta ?? {})
             setLastUpdatedAt(new Date())
-        } catch (error) {
+        } catch {
             if (requestId !== requestIdRef.current) return
-
-            const message = (error as AxiosError<{ message?: string }>)?.response?.data?.message
-            toast.error(message ?? 'Não foi possível consultar o histórico.', { id: 'market-error' })
         } finally {
             if (!options.background) setIsSearching(false)
         }
     }, [])
 
-    function search({ symbols: submittedSymbols }: { symbols: string }) {
+    function search({ assets }: { assets: SelectOption[] }) {
         setPeriod({ type: 'range', id: '1D' })
-        setSymbols(submittedSymbols)
+        setSymbols(assets.map((asset) => asset.value).join(','))
     }
 
     function applyCustomPeriod({ startDate, endDate }: { startDate: string; endDate: string }) {
@@ -163,12 +165,13 @@ export function Market() {
 
                     <Form onSubmit={handleSubmit(search)}>
                         <FieldGroup>
-                            <InputLabel
-                                name="symbols"
-                                label="Ativos"
-                                placeholder="PETR4,VALE3"
+                            <ReactSelect
+                                control={control}
+                                name="assets"
+                                options={ASSET_OPTIONS}
+                                isMulti
                                 isRequired
-                                register={register}
+                                placeholder="Selecione os ativos"
                             />
                             <SearchButton type="submit" disabled={isSearching}>
                                 Buscar
