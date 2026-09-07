@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import type { FieldErrors } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import type { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
@@ -27,9 +28,26 @@ export function Register() {
             toast.success('Conta criada com sucesso. Faça login para continuar.', { id: 'register-success' })
             navigate('/login', { replace: true })
         } catch (error) {
-            const message = (error as AxiosError<{ message?: string }>)?.response?.data?.message
-            toast.error(message ?? 'Não foi possível criar a conta.', { id: 'register-error' })
+            const axiosError = error as AxiosError<{ message?: string }>
+            const status = axiosError?.response?.status
+            const backendMessage = axiosError?.response?.data?.message
+
+            const message = status === 409
+                ? 'Este e-mail já está cadastrado.'
+                : status === 400 && backendMessage?.toLowerCase().includes('password')
+                    ? 'A senha deve ter pelo menos 8 caracteres.'
+                    : backendMessage
+                        ?? (axiosError?.request
+                            ? 'Não foi possível conectar ao servidor.'
+                            : 'Não foi possível criar a conta.')
+
+            toast.error(message, { id: 'register-error' })
         }
+    }
+
+    function onInvalid(errors: FieldErrors<RegisterUserDTO>) {
+        const message = Object.values(errors)[0]?.message
+        toast.error(message ?? 'Preencha os campos obrigatórios.', { id: 'register-validation' })
     }
 
     return (
@@ -40,7 +58,7 @@ export function Register() {
                         <img src={theme.img.b3Logo} alt="Logo" />
                     </LogoContainer>
 
-                    <form onSubmit={handleSubmit(createAccount)}>
+                    <form onSubmit={handleSubmit(createAccount, onInvalid)}>
                         <ContainerInputs>
                             <h2>Crie sua conta</h2>
                             <Divider />

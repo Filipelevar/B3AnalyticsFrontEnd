@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import type { FieldErrors } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import type { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
@@ -25,9 +26,21 @@ export function Login() {
         try {
             await handleSignIn(credentials)
         } catch (error) {
-            const message = (error as AxiosError<{ message?: string }>)?.response?.data?.message
-            toast.error(message ?? 'Não foi possível autenticar.', { id: 'login-error' })
+            const axiosError = error as AxiosError<{ message?: string }>
+            const message = axiosError?.response?.status === 401
+                ? 'E-mail ou senha inválidos.'
+                : axiosError?.response?.data?.message
+                    ?? (axiosError?.request
+                        ? 'Não foi possível conectar ao servidor.'
+                        : 'Não foi possível autenticar.')
+
+            toast.error(message, { id: 'login-error' })
         }
+    }
+
+    function onInvalid(errors: FieldErrors<LoginUserDTO>) {
+        const message = Object.values(errors)[0]?.message
+        toast.error(message ?? 'Preencha os campos obrigatórios.', { id: 'login-validation' })
     }
 
     return (
@@ -38,7 +51,7 @@ export function Login() {
                         <img src={theme.img.b3Logo} alt="Logo" />
                     </LogoContainer>
 
-                    <form onSubmit={handleSubmit(authenticate)}>
+                    <form onSubmit={handleSubmit(authenticate, onInvalid)}>
                         <ContainerInputs>
                             <h2>Acesse sua conta</h2>
                             <Divider />
