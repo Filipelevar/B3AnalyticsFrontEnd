@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import Select from 'react-select';
-import type { StylesConfig } from 'react-select';
+import type { InputActionMeta, StylesConfig } from 'react-select';
 import { Controller } from 'react-hook-form';
 import type { Control, FieldValues, Path } from 'react-hook-form';
 
@@ -20,6 +21,7 @@ type SelectInputProps<TFieldValues extends FieldValues> = {
     placeholder?: string,
     isSearchable?: boolean,
     isDisabled?: boolean,
+    maxInputLength?: number,
     extraStyles?: StylesConfig<SelectOption, boolean>
 }
 
@@ -31,9 +33,17 @@ export function ReactSelect<TFieldValues extends FieldValues>({
     placeholder,
     isSearchable = false,
     isRequired = false,
+    maxInputLength = 20,
     extraStyles = {},
     ...props
 }: SelectInputProps<TFieldValues>) {
+    const [inputValue, setInputValue] = useState('')
+
+    function handleInputChange(value: string, actionMeta: InputActionMeta) {
+        if (actionMeta.action !== 'input-change') return
+        setInputValue(value.slice(0, maxInputLength))
+    }
+
     return (
         <Controller
             control={control}
@@ -46,6 +56,8 @@ export function ReactSelect<TFieldValues extends FieldValues>({
                     value={field.value as SelectOption | SelectOption[] | null}
                     onBlur={field.onBlur}
                     onChange={(value) => field.onChange(value)}
+                    inputValue={inputValue}
+                    onInputChange={handleInputChange}
                     styles={{ ...selectCustomStyles, ...extraStyles }}
                     options={options}
                     isMulti={isMulti}
