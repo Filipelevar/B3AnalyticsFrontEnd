@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-export const Content = styled.div`
-  position: fixed;
+export const Content = styled.div<{ $fullScreen?: boolean }>`
+  position: ${({ $fullScreen = true }) => ($fullScreen ? 'fixed' : 'absolute')};
   top: 0;
   left: 0;
   width: 100%;

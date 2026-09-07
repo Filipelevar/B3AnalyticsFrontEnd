@@ -27,6 +27,7 @@ export const SearchButton = styled(PrimaryButton)`
 `
 
 export const ChartWrapper = styled.div`
+  position: relative;
   width: 100%;
   height: 420px;
 `

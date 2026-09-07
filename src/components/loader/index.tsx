@@ -1,8 +1,12 @@
 import { Content } from "./styles";
 
-export function Loader() {
+interface LoaderProps {
+    fullScreen?: boolean
+}
+
+export function Loader({ fullScreen = true }: LoaderProps) {
     return (
-        <Content>
+        <Content $fullScreen={fullScreen}>
             <svg
                 width="24"
                 height="24"

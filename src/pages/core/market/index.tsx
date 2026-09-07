@@ -23,6 +23,7 @@ import type { AssetHistoryRange, AssetHistoryRequestDTO, AssetHistoryRowDTO, Ass
 import { ActionButtons, AssetTitle, ChartWrapper, CustomPeriodForm, FieldGroup, Form, RangeButton, RangeButtons, SearchButton, SessionDate, StatusText } from '@/pages/core/market/styles'
 import { buildNiceYAxis, formatSessionDate, formatXAxisTick, formatYAxisTick, isIntradayRow, parseRowDateTime } from '@/pages/core/market/utils'
 import { Title } from '@/globals/text'
+import { Loader } from '@/components/loader'
 import { ReactSelect } from '@/components/inputs/react-select'
 import type { SelectOption } from '@/components/inputs/react-select'
 
@@ -85,7 +86,7 @@ export function Market() {
                 setMeta({})
             }
 
-            const { data: response } = await getAssetHistory(params, { skipLoader: options.background })
+            const { data: response } = await getAssetHistory(params, { skipLoader: true })
 
             if (requestId !== requestIdRef.current) return
 
@@ -186,7 +187,13 @@ export function Market() {
                         </StatusText>
                     )}
 
-                    {visibleData.length > 0 && (
+                    {isSearching && (
+                        <ChartWrapper>
+                            <Loader fullScreen={false} />
+                        </ChartWrapper>
+                    )}
+
+                    {!isSearching && visibleData.length > 0 && (
                         <>
                             {assetKeys.map((symbol) => (
                                 <AssetTitle key={symbol}>
